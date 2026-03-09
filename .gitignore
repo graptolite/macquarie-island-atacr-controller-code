@@ -1,0 +1,7 @@
+.*
+*.csv
+!.gitignore
+!3F.csv
+*/*
+*.xml
+*.pkl
