@@ -3,5 +3,6 @@
 !.gitignore
 !3F.csv
 */*
+!atacr-diffs/*
 *.xml
 *.pkl

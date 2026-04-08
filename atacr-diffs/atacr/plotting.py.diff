@@ -1,0 +1,14 @@
+87a88
+>         ax.set_xlim(1e-2,1e1)
+588,592c589,593
+<         if key in sta_list.keys():
+<             ax.loglog(
+<                 f[faxis],
+<                 np.abs(sta_trfs[key]['TF_'+key][faxis]),
+<                 'k', lw=0.5)
+---
+>         # if key in sta_list.keys():
+>         #     ax.loglog(
+>         #         f[faxis],
+>         #         np.abs(sta_trfs[key]['TF_'+key][faxis]),
+>         #         'k', lw=0.5)

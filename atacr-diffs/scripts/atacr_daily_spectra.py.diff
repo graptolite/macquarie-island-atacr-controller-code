@@ -1,0 +1,164 @@
+30a31
+> import os
+417,480c418,513
+<         # Get all components
+<         trN1, trN2, trNZ, trNP = utils.get_data(datapath, tstart, tend)
+< 
+<         # Window size
+<         window = args.window
+<         overlap = args.overlap
+< 
+<         # minimum numer of windows
+<         minwin = args.minwin
+< 
+<         # Time axis
+<         taxis = np.arange(0., window, trNZ[0].stats.delta)
+< 
+<         # Cycle through available data
+<         for tr1, tr2, trZ, trP in zip(trN1, trN2, trNZ, trNP):
+< 
+<             year = str(trZ.stats.starttime.year).zfill(4)
+<             jday = str(trZ.stats.starttime.julday).zfill(3)
+< 
+<             print("\n"+"*"*60)
+<             print("* Calculating noise spectra for key " +
+<                   stkey+" and day "+year+"."+jday)
+<             tstamp = year+'.'+jday+'.'
+<             filename = specpath / (tstamp+'spectra.pkl')
+< 
+<             if filename.exists():
+<                 if not args.ovr:
+<                     print("*   -> file "+str(filename)+" exists - continuing")
+<                     continue
+< 
+<             # Initialize instance of DayNoise
+<             daynoise = DayNoise(tr1, tr2, trZ, trP, window, overlap, key=stkey)
+< 
+<             # Quality control to identify outliers
+<             daynoise.QC_daily_spectra(
+<                 pd=args.pd,
+<                 tol=args.tol,
+<                 alpha=args.alpha,
+<                 smooth=args.smooth,
+<                 fig_QC=args.fig_QC,
+<                 save=plotpath,
+<                 form=args.form,
+<                 debug=args.debug)
+< 
+<             # Check if we have enough good windows
+<             nwin = np.sum(daynoise.goodwins)
+<             if nwin < minwin:
+<                 print("*   Too few good data segments to calculate " +
+<                       "average day spectra")
+<                 # continue
+<             else:
+<                 print("*   {0} good windows. Proceeding...".format(nwin))
+< 
+<             # Average spectra for good windows
+<             daynoise.average_daily_spectra(
+<                 calc_rotation=args.calc_rotation,
+<                 tiltfreqs=args.tf,
+<                 fig_average=args.fig_average,
+<                 fig_tilt=args.fig_tilt,
+<                 save=plotpath,
+<                 form=args.form)
+< 
+<             # Save to file
+<             daynoise.save(filename)
+---
+>         # Allow different numbers of channels to be processed for spectrograms.
+>         #######vvvvvvvvv#######
+>         mseeds = os.listdir(datapath)
+>         cha_completeness = dict()
+>         for mseed in sorted(mseeds):
+>             day = mseed.split(".")[1]
+>             year = mseed.split(".")[0]
+>             k = year+"-"+day
+>             if UTCDateTime(k) >= tstart and UTCDateTime(k) <= tend:
+>                 if not k in cha_completeness:
+>                     cha_completeness[k] = list()
+>                 # Key for the channel (final letter).
+>                 cha_key = mseed.split(".")[-2][-1]
+>                 cha_completeness[k].append(cha_key)
+>         prev_len = 0
+>         t_edges = []
+>         for date,chas in cha_completeness.items():
+>             n_chas = len(chas)
+>             if n_chas != prev_len:
+>                 prev_len = n_chas
+>                 t_edges.append(date)
+>         # Make sure the final day is present.
+>         if t_edges[-1] != date:
+>             t_edges.append(date)
+> 
+>         for date_start,date_end in zip(t_edges[:-1],t_edges[1:]):
+>             _tstart = UTCDateTime(date_start)
+>             _tend = UTCDateTime(date_end)
+>             trN1, trN2, trNZ, trNP = utils.get_data(datapath,_tstart,_tend)
+>             print(_tstart,_tend)
+>             # Get all components
+>             #######^^^^^^^^^#######
+> 
+>             # Window size
+>             window = args.window
+>             overlap = args.overlap
+> 
+>             # minimum numer of windows
+>             minwin = args.minwin
+> 
+>             # Time axis
+>             taxis = np.arange(0., window, trNZ[0].stats.delta)
+>             # Cycle through available data
+>             for tr1, tr2, trZ, trP in zip(trN1, trN2, trNZ, trNP):
+>                 year = str(trZ.stats.starttime.year).zfill(4)
+>                 jday = str(trZ.stats.starttime.julday).zfill(3)
+> 
+>                 print("\n"+"*"*60)
+>                 print("* Calculating noise spectra for key " +
+>                       stkey+" and day "+year+"."+jday)
+>                 tstamp = year+'.'+jday+'.'
+>                 filename = specpath / (tstamp+'spectra.pkl')
+> 
+>                 if filename.exists():
+>                     if not args.ovr:
+>                         print("*   -> file "+str(filename)+" exists - continuing")
+>                         continue
+> 
+>                 # Initialize instance of DayNoise
+>                 daynoise = DayNoise(tr1, tr2, trZ, trP, window, overlap, key=stkey)
+> 
+>                 # Quality control to identify outliers
+>                 try:
+>                     daynoise.QC_daily_spectra(
+>                         pd=args.pd,
+>                         tol=args.tol,
+>                         alpha=args.alpha,
+>                         smooth=args.smooth,
+>                         fig_QC=args.fig_QC,
+>                         save=plotpath,
+>                         form=args.form,
+>                         debug=args.debug)
+> 
+>                     # Check if we have enough good windows
+>                     nwin = np.sum(daynoise.goodwins)
+>                     if nwin < minwin:
+>                         print("*   Too few good data segments to calculate " +
+>                               "average day spectra")
+>                         # continue
+>                     else:
+>                         print("*   {0} good windows. Proceeding...".format(nwin))
+> 
+>                     # Average spectra for good windows
+>                     daynoise.average_daily_spectra(
+>                         calc_rotation=args.calc_rotation,
+>                         tiltfreqs=args.tf,
+>                         fig_average=args.fig_average,
+>                         fig_tilt=args.fig_tilt,
+>                         save=plotpath,
+>                         form=args.form)
+> 
+>                     # Save to file
+>                     daynoise.save(filename)
+>                 except IndexError:
+>                     print("Data has gaps")
+>                     pass

@@ -1,0 +1,200 @@
+411,480d410
+<         if fig_QC:
+<             if self.ncomp == 2:
+<                 plt.figure(1)
+<                 plt.subplot(2, 1, 1)
+<                 plt.pcolormesh(t, f, np.log(psdZ), shading='auto')
+<                 plt.title('Z', fontdict={'fontsize': 8})
+<                 plt.subplot(2, 1, 2)
+<                 plt.pcolormesh(t, f, np.log(psdP), shading='auto')
+<                 plt.title('P', fontdict={'fontsize': 8})
+<                 plt.xlabel('Seconds')
+<                 plt.tight_layout()
+<                 if save:
+<                     fname = self.key + '.' + self.tkey + \
+<                         '.specgram_Z.P.' + form
+<                     if isinstance(save, Path):
+<                         fname = save / fname
+<                     plt.savefig(
+<                         str(fname), dpi=300, bbox_inches='tight', format=form)
+<                 else:
+<                     plt.show()
+< 
+<             elif self.ncomp == 3:
+<                 plt.figure(1)
+<                 plt.subplot(3, 1, 1)
+<                 plt.pcolormesh(t, f, np.log(psd1), shading='auto')
+<                 plt.title('H1', fontdict={'fontsize': 8})
+<                 plt.subplot(3, 1, 2)
+<                 plt.pcolormesh(t, f, np.log(psd2), shading='auto')
+<                 plt.title('H2', fontdict={'fontsize': 8})
+<                 plt.subplot(3, 1, 3)
+<                 plt.pcolormesh(t, f, np.log(psdZ), shading='auto')
+<                 plt.title('Z', fontdict={'fontsize': 8})
+<                 plt.xlabel('Seconds')
+<                 plt.tight_layout()
+<                 if save:
+<                     fname = self.key + '.' + self.tkey + \
+<                         '.specgram_H1.H2.Z.' + form
+<                     if isinstance(save, Path):
+<                         fname = save / fname
+<                     plt.savefig(
+<                         str(fname), dpi=300, bbox_inches='tight', format=form)
+<                 else:
+<                     plt.show()
+< 
+<             else:
+<                 plt.figure(1)
+<                 plt.subplot(4, 1, 1)
+<                 plt.pcolormesh(t, f, np.log(psd1), shading='auto')
+<                 plt.title('H1', fontdict={'fontsize': 8})
+<                 plt.subplot(4, 1, 2)
+<                 plt.pcolormesh(t, f, np.log(psd2), shading='auto')
+<                 plt.title('H2', fontdict={'fontsize': 8})
+<                 plt.subplot(4, 1, 3)
+<                 plt.pcolormesh(t, f, np.log(psdZ), shading='auto')
+<                 plt.title('Z', fontdict={'fontsize': 8})
+<                 plt.subplot(4, 1, 4)
+<                 plt.pcolormesh(t, f, np.log(psdP), shading='auto')
+<                 plt.title('P', fontdict={'fontsize': 8})
+<                 plt.xlabel('Seconds')
+<                 plt.tight_layout()
+<                 if save:
+<                     fname = self.key + '.' + self.tkey + \
+<                         '.specgram_H1.H2.Z.P.' + form
+<                     if isinstance(save, Path):
+<                         fname = save / fname
+<                     plt.savefig(
+<                         str(fname), dpi=300, bbox_inches='tight', format=form)
+<                 else:
+<                     plt.show()
+< 
+612a543,624
+>             if self.ncomp == 2:
+>                 plt.figure(1)
+>                 plt.subplot(3, 1, 1)
+>                 plt.pcolormesh(t, f, np.log(psdZ), shading='auto')
+>                 plt.title('Z', fontdict={'fontsize': 8})
+>                 plt.subplot(3, 1, 2)
+>                 plt.pcolormesh(t, f, np.log(psdP), shading='auto')
+>                 plt.subplot(3, 1, 3)
+>                 for i,(_t,_accept) in enumerate(zip(t,goodwins)):
+>                     c = "g" if _accept else "r"
+>                     m = "." if _accept else "x"
+>                     plt.scatter(_t,0,c=c,marker=m)
+>                     plt.text(_t,0,str(i+1))
+>                 plt.title('P', fontdict={'fontsize': 8})
+>                 plt.xlabel('Seconds')
+>                 plt.tight_layout()
+>                 if save:
+>                     fname = self.key + '.' + self.tkey + \
+>                         '.specgram_Z.P.' + form
+>                     if isinstance(save, Path):
+>                         fname = save / fname
+>                     plt.savefig(
+>                         str(fname), dpi=300, bbox_inches='tight', format=form)
+>                 else:
+>                     plt.show()
+> 
+>             elif self.ncomp == 3:
+>                 plt.figure(1)
+>                 plt.subplot(3, 1, 1)
+>                 plt.pcolormesh(t, f, np.log(psd1), shading='auto')
+>                 plt.title('H1', fontdict={'fontsize': 8})
+>                 plt.subplot(3, 1, 2)
+>                 plt.pcolormesh(t, f, np.log(psd2), shading='auto')
+>                 plt.title('H2', fontdict={'fontsize': 8})
+>                 plt.subplot(3, 1, 3)
+>                 plt.pcolormesh(t, f, np.log(psdZ), shading='auto')
+>                 plt.title('Z', fontdict={'fontsize': 8})
+>                 plt.xlabel('Seconds')
+>                 plt.tight_layout()
+>                 if save:
+>                     fname = self.key + '.' + self.tkey + \
+>                         '.specgram_H1.H2.Z.' + form
+>                     if isinstance(save, Path):
+>                         fname = save / fname
+>                     plt.savefig(
+>                         str(fname), dpi=300, bbox_inches='tight', format=form)
+>                 else:
+>                     plt.show()
+> 
+>             else:
+>                 plt.figure(1)
+>                 plt.subplot(5, 1, 1)
+>                 plt.pcolormesh(t, f, np.log(psd1), shading='auto')
+>                 plt.title('H1', fontdict={'fontsize': 8})
+>                 plt.subplot(5, 1, 2)
+>                 plt.pcolormesh(t, f, np.log(psd2), shading='auto')
+>                 plt.title('H2', fontdict={'fontsize': 8})
+>                 plt.subplot(5, 1, 3)
+>                 plt.pcolormesh(t, f, np.log(psdZ), shading='auto')
+>                 plt.title('Z', fontdict={'fontsize': 8})
+>                 plt.subplot(5, 1, 4)
+>                 plt.pcolormesh(t, f, np.log(psdP), shading='auto')
+>                 plt.title('P', fontdict={'fontsize': 8})
+>                 plt.subplot(5, 1, 5)
+>                 for i,(_t,_accept) in enumerate(zip(t,goodwins)):
+>                     c = "g" if _accept else "r"
+>                     m = "." if _accept else "x"
+>                     plt.scatter(_t,0,c=c,marker=m)
+>                     plt.text(_t,0,str(i+1))
+>                 plt.xlabel('Seconds')
+>                 plt.tight_layout()
+>                 if save:
+>                     fname = self.key + '.' + self.tkey + \
+>                         '.specgram_H1.H2.Z.P.' + form
+>                     if isinstance(save, Path):
+>                         fname = save / fname
+>                     plt.savefig(
+>                         str(fname), dpi=300, bbox_inches='tight', format=form)
+>                 else:
+>                     plt.show()
+> 
+>         if fig_QC:
+1100,1101c1112,1119
+<         self.c11 = np.array([dn.power.c11 for dn in self.daylist]).T
+<         self.c22 = np.array([dn.power.c22 for dn in self.daylist]).T
+---
+>         def dn_prop_list(dn_f):
+>             target_len = len(self.daylist)
+>             l_prop = [dn_f(dn) for dn in self.daylist if dn_f(dn) is not None]
+>             if len(l_prop) != target_len:
+>                 l_prop = [None]*len(l_prop)
+>             return l_prop
+>         self.c11 = np.array(dn_prop_list(lambda dn : dn.power.c11)).T
+>         self.c22 = np.array(dn_prop_list(lambda dn : dn.power.c22)).T
+1103,1115c1121,1139
+<         self.cPP = np.array([dn.power.cPP for dn in self.daylist]).T
+<         self.c12 = np.array([dn.cross.c12 for dn in self.daylist]).T
+<         self.c1Z = np.array([dn.cross.c1Z for dn in self.daylist]).T
+<         self.c1P = np.array([dn.cross.c1P for dn in self.daylist]).T
+<         self.c2Z = np.array([dn.cross.c2Z for dn in self.daylist]).T
+<         self.c2P = np.array([dn.cross.c2P for dn in self.daylist]).T
+<         self.cZP = np.array([dn.cross.cZP for dn in self.daylist]).T
+<         self.cHH = np.array([dn.rotation.cHH for dn in self.daylist]).T
+<         self.cHZ = np.array([dn.rotation.cHZ for dn in self.daylist]).T
+<         self.cHP = np.array([dn.rotation.cHP for dn in self.daylist]).T
+<         self.phi = self.daylist[0].rotation.phi
+<         self.tilt_dir = self.daylist[0].rotation.tilt_dir
+<         self.tilt_ang = self.daylist[0].rotation.tilt_ang
+---
+>         self.cPP = np.array([dn.power.cPP for dn in self.daylist if dn.power.cPP is not None]).T
+>         self.c12 = np.array(dn_prop_list(lambda dn : dn.cross.c12)).T
+>         self.c1Z = np.array(dn_prop_list(lambda dn : dn.cross.c1Z)).T
+>         self.c1P = np.array(dn_prop_list(lambda dn : dn.cross.c1P)).T
+>         self.c2Z = np.array(dn_prop_list(lambda dn : dn.cross.c2Z)).T
+>         self.c2P = np.array(dn_prop_list(lambda dn : dn.cross.c2P)).T
+>         self.cZP = np.array([dn.cross.cZP for dn in self.daylist if dn.cross.cZP is not None]).T
+>         self.cHH = np.array(dn_prop_list(lambda dn : dn.rotation.cHH)).T
+>         self.cHZ = np.array(dn_prop_list(lambda dn : dn.rotation.cHZ)).T
+>         self.cHP = np.array(dn_prop_list(lambda dn : dn.rotation.cHP)).T
+>         tilt_dirs = [dn.rotation.tilt_dir for dn in self.daylist]
+>         if None in tilt_dirs:
+>             self.phi = None
+>             self.tilt_dir = None
+>             self.tilt_ang = None
+>         else:
+>             self.phi = self.daylist[0].rotation.phi
+>             self.tilt_dir = self.daylist[0].rotation.tilt_dir
+>             self.tilt_ang = self.daylist[0].rotation.tilt_ang

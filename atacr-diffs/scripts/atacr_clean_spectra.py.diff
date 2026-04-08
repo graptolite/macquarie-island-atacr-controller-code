@@ -1,0 +1,77 @@
+24a25,37
+> import os
+> os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
+> os.environ["OPENBLAS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
+> os.environ["MKL_NUM_THREADS"] = "1" # export MKL_NUM_THREADS=6
+> os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
+> os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
+> 
+> try:
+>     import mkl
+>     mkl.set_num_threads(1)
+> except:
+>     pass
+> 
+436a450
+>                 print(daynoise.rotation)
+535a550,577
+>         # Avoid issues with spectrograms containing different numbers of components
+>         ##### vvvv #####
+>         if None in coh_list:
+>             # If some spectrograms are missing their horizontal, ignore horizontal for all
+>             tiltdir_list = []
+>             tiltang_list = []
+>             coh_list = []
+> 
+>             coh_all = []
+>             ad_all = []
+>             ph_all = []
+>             coh_12_all = []
+>             coh_1Z_all = []
+>             coh_1P_all = []
+>             coh_2Z_all = []
+>             coh_2P_all = []
+>             ph_12_all = []
+>             ph_1Z_all = []
+>             ph_1P_all = []
+>             ph_2Z_all = []
+>             ph_2P_all = []
+>             ad_12_all = []
+>             ad_1Z_all = []
+>             ad_1P_all = []
+>             ad_2Z_all = []
+>             ad_2P_all = []
+>             ##### ^^^^ #####
+> 
+544,545c586,587
+<         coh_1Z_all = np.array(coh_1Z_all)
+<         coh_1P_all = np.array(coh_1P_all)
+---
+>         coh_1Z_all = np.array([x for x in coh_1Z_all if x is not None])
+>         coh_1P_all = np.array([x for x in coh_1P_all if x is not None])
+547,548c589,590
+<         coh_2P_all = np.array(coh_2P_all)
+<         coh_ZP_all = np.array(coh_ZP_all)
+---
+>         coh_2P_all = np.array([x for x in coh_2P_all if x is not None])
+>         coh_ZP_all = np.array([x for x in coh_ZP_all if x is not None])
+551c593
+<         ph_1P_all = np.array(ph_1P_all)
+---
+>         ph_1P_all = np.array([x for x in ph_1P_all if x is not None])
+553,554c595,596
+<         ph_2P_all = np.array(ph_2P_all)
+<         ph_ZP_all = np.array(ph_ZP_all)
+---
+>         ph_2P_all = np.array([x for x in ph_2P_all if x is not None])
+>         ph_ZP_all = np.array([x for x in ph_ZP_all if x is not None])
+557c599
+<         ad_1P_all = np.array(ad_1P_all)
+---
+>         ad_1P_all = np.array([x for x in ad_1P_all if x is not None])
+559,560c601,602
+<         ad_2P_all = np.array(ad_2P_all)
+<         ad_ZP_all = np.array(ad_ZP_all)
+---
+>         ad_2P_all = np.array([x for x in ad_2P_all if x is not None])
+>         ad_ZP_all = np.array([x for x in ad_ZP_all if x is not None])

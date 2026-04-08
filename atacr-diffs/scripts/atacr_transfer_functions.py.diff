@@ -1,0 +1,28 @@
+237a238,239
+>         # This is required later (line ~322 `p = specpath.glob('*spectra.pkl')`) even if skip_daily turned on...
+>         specpath = Path('SPECTRA') / stkey
+408,417c410,422
+<             plot = plotting.fig_TF(
+<                 f, day_transfer_functions, daynoise.tf_list,
+<                 sta_transfer_functions, stanoise.tf_list, skey=stkey)
+< 
+<             if plotpath:
+<                 plot.savefig(
+<                     plotpath / (fname + '.' + args.form),
+<                     dpi=300, bbox_inches='tight', format=args.form)
+<             else:
+<                 plot.show()
+---
+>             try:
+>                 plot = plotting.fig_TF(
+>                     f, day_transfer_functions, daynoise.tf_list,
+>                     sta_transfer_functions, stanoise.tf_list, skey=stkey)
+> 
+>                 if plotpath:
+>                     plot.savefig(
+>                         plotpath / (fname + '.' + args.form),
+>                         dpi=300, bbox_inches='tight', format=args.form)
+>                 else:
+>                     plot.show()
+>             except:
+>                 pass
