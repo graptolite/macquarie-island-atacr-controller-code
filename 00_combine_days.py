@@ -45,7 +45,7 @@ try:
     channel = sys.argv[1]
     ncores = int(sys.argv[2])
 except:
-    raise IndexError("Usage: python 01_combine_days.py <last two (important!) characters of channel> <number of cores to use>")
+    raise IndexError("Usage: python 00_combine_days.py <last two (important!) characters of channel> <number of cores to use>")
 
 def process_day(day_dir_in,channel,sds_dest="SDS",net="3F",dtype="D",loc="",inv=None,freq_resample=20):
     ''' Join and process all waveform segments in one day (reading from the data structure format specified at the top of this script). Wrapped into a function for easier parallelisation.
