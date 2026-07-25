@@ -45,7 +45,7 @@ freqmax = 2
 ## Note: a freqmin of 0.03 is applied as a highpass before demeaning (due to instrument-specific properties), detrending (linear) and then bandpassing. Disable this by setting the following to false
 instrument_specific_prehighpass = True
 # Resampling frequency for the data. This is applied to avoid using up too much disk space (limited on the machines used by the author).
-resample_freq = 4 # Hz
+resample_freq = 8 # Hz
 # Instrument-specific gains. Direction important, value not (in this study where waveform alignments are the concern, not the amplitude). These gains are just to match the orientation of the Z and H channels.
 gains = {"Z":-1,
          "H":300,
